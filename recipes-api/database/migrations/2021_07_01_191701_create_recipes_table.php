@@ -18,9 +18,11 @@ class CreateRecipesTable extends Migration
             $table->unsignedBigInteger('user_id');
 
             $table->string('name');
+            $table->string('photo')->nullable('true');
+            $table->text('ingredients');
+            $table->text('details');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

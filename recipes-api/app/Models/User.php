@@ -31,4 +31,9 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function recipes()
+    {
+        return $this->hasMany(Recipes::class);
+    }
+
 }

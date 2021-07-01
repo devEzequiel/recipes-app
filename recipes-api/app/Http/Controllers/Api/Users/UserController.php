@@ -23,8 +23,6 @@ class UserController extends Controller
     {
         $data = $request->all();
 
-        dd($request->ip());
-
         try {
             $user = $this->user->createUser($data);
 

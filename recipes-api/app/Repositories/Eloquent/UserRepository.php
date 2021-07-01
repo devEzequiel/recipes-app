@@ -5,7 +5,6 @@ namespace App\Repositories\Eloquent;
 use App\Exceptions\DefaultException;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
