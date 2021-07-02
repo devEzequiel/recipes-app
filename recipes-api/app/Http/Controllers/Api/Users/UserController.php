@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Users;
 
 use App\Exceptions\DefaultException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UserRequest;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +19,7 @@ class UserController extends Controller
         $this->user = $user;
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(UserRequest $request)
     {
         $data = $request->all();
 
@@ -91,11 +91,11 @@ class UserController extends Controller
         try {
             $this->user->deleteUser(2);
 
-             return response()->json(['status' => 'success', 'message' => 'User deleted successfully'], 200);
-         } catch (DefaultException $e) {
+            return response()->json(['status' => 'success', 'message' => 'User deleted successfully'], 200);
+        } catch (DefaultException $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], $e->getCode());
-        }catch (\Exception $e) {
-             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 422);
-         }
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 422);
+        }
     }
 }

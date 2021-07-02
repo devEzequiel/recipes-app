@@ -9,16 +9,24 @@ class Recipe extends Model
 {
     use HasFactory;
 
+    protected $table = 'recipes';
+
     protected $fillable = [
         'user_id',
         'name',
-        'photo',
+        'image',
         'ingredients',
-        'details'
+        'details',
+        'slug'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function rates()
+    {
+        return $this->hasMany(Rate::class);
     }
 }

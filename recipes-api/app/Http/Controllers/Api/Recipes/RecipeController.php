@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Recipes;
+namespace app\Http\Controllers\Api\Recipes;
 
+use Illuminate\Http\Request;
 use App\Exceptions\DefaultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRecipeRequest;
+use App\Http\Resources\RecipeCollection;
 use App\Http\Resources\RecipeResource;
 use App\Repositories\Contracts\RecipeRepositoryInterface;
-use Illuminate\Http\Request;
+
 
 class RecipeController extends Controller
 {
@@ -26,7 +28,13 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $recipe = $this->recipe->all();
+
+            return new RecipeCollection($recipe);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -38,12 +46,22 @@ class RecipeController extends Controller
     public function store(StoreRecipeRequest $request)
     {
         $data = $request->all();
+        // dd($data['image']);
+        $data['user_id'] = 1;
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $path = $request->file('image')->store('images', 'public');
+            // dd($path);
+            $data['image'] = $path;
+        } else {
+            unset($data['image']);
+        }
 
         try {
             $recipe = $this->recipe->createRecipe($data);
 
             return response()->json([
-                'data' => ['message' => 'User created successfully!', 'user' => $recipe]
+                'data' => ['message' => 'Recipe created successfully!', 'recipe' => $recipe]
             ], 201);
         } catch (DefaultException $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], $e->getCode());
@@ -74,7 +92,7 @@ class RecipeController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                 'message' => $e->getMessage()
+                'message' => $e->getMessage()
             ], 422);
         }
     }
@@ -88,7 +106,31 @@ class RecipeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        dd($request->all());
+
+        //vefify if image field is valid
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $path = $request->file('image')->store('images', 'public');
+
+            $data['image'] = $path;
+        } else {
+            unset($data['image']);
+        }
+
+        try {
+
+            $recipe = $this->recipe->updateRecipe($data, $id);
+
+            return response()->json([
+                'data' => [
+                    'message' => 'Recipe updated successfully!',
+                    'recipe' => $recipe
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], $e->getCode());
+        }
     }
 
     /**
@@ -99,6 +141,14 @@ class RecipeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $this->recipe->deleteRecipe(2);
+
+            return response()->json(['status' => 'success', 'message' => 'Recipe deleted successfully'], 200);
+        } catch (DefaultException $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], $e->getCode());
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 422);
+        }
     }
 }
