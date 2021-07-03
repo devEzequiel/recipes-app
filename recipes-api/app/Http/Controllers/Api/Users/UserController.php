@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -37,10 +38,10 @@ class UserController extends Controller
     }
 
 
-    public function show($id)
+    public function show()
     {
         try {
-            $user = $this->user->find($id);
+            $user = $this->user->find(Auth::user()->id);
 
             if (!$user) {
                 return response()->json(['message' => 'User doesn\'t found']);
@@ -56,6 +57,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $data = $request->all();
+        $data['id'] = Auth::user()->id;
 
         //verifying if the password field has been set
         if ($request->has('password') && $request->get('password')) {
@@ -89,7 +91,7 @@ class UserController extends Controller
     {
         // dd($request->id);
         try {
-            $this->user->deleteUser(2);
+            $this->user->deleteUser(Auth::user()->id);
 
             return response()->json(['status' => 'success', 'message' => 'User deleted successfully'], 200);
         } catch (DefaultException $e) {

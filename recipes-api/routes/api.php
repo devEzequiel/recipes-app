@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Users\UserController;
 use App\Http\Controllers\Api\Recipes\RecipeController;
 use App\Http\Controllers\Api\Recipes\RateController;
@@ -49,3 +50,10 @@ Route::namespace('Api')->name('recipes.')->prefix('recipes')->group(function () 
     Route::post('/{id}', [RateController::class, 'storeRate'])
         ->name('rate_recipe');
 });
+
+Route::namespace('Api')->name('auth.')->prefix('auth')->group(function () {
+
+    Route::post('/', [AuthController::class, 'postAuth'])
+        ->name('login');
+});
+

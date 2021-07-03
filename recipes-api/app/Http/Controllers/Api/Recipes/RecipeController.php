@@ -9,7 +9,7 @@ use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Resources\RecipeCollection;
 use App\Http\Resources\RecipeResource;
 use App\Repositories\Contracts\RecipeRepositoryInterface;
-
+use Illuminate\Support\Facades\Auth;
 
 class RecipeController extends Controller
 {
@@ -47,7 +47,7 @@ class RecipeController extends Controller
     {
         $data = $request->all();
         // dd($data['image']);
-        $data['user_id'] = 1;
+        $data['user_id'] = Auth::user()->id;
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $path = $request->file('image')->store('images', 'public');
@@ -107,7 +107,6 @@ class RecipeController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        dd($request->all());
 
         //vefify if image field is valid
         if ($request->hasFile('image') && $request->file('image')->isValid()) {

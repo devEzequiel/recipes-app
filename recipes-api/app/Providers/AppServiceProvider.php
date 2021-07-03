@@ -22,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\RecipeRepositoryInterface',
             'App\Repositories\Eloquent\RecipeRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Contracts\AuthRepositoryInterface',
+            'App\Repositories\Eloquent\AuthRepository'
+        );
     }
 
     /**
