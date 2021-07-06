@@ -27,7 +27,7 @@ class StoreRecipeRequest extends FormRequest
             'name' => 'required|min:6',
             'details' => 'required',
             'ingredients' => 'required',
-            'details' => 'required'
+            'details' => 'required',
         ];
     }
 }

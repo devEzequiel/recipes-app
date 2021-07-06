@@ -43,7 +43,7 @@
   }
   
   .links {
-    float: left;
+    /* float: left; */
     color: #333;
     text-align: center;
     padding: 12px;

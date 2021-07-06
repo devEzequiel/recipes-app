@@ -23,7 +23,7 @@ class AuthController extends Controller
             $data = $request->only(['email', 'password']);
             $result = $this->auth->authenticate($data);
 
-            return response()->json(['status' => 'success', $result], 200);
+            return response()->json(['data' => $result], 200);
 
         } catch (ValidationException $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 401);
