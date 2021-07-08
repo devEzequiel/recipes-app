@@ -6,6 +6,8 @@ import Home from "./Components/Home";
 import { UserStorage } from "./Components/Context/AuthContext";
 import CreateUser from "./Components/Auth/CreateUser";
 import CreateRecipe from "./Components/Recipes/CreateRecipe";
+import Recipes from "./Components/Recipes/Recipes";
+import UpdateRecipe from "./Components/Recipes/UpdateRecipe";
 
 
 const Routes = () => {
@@ -20,6 +22,8 @@ const Routes = () => {
           <Route path="/signup" component={CreateUser} />
           <Route exact path="/receitas" component={Home} />
           <Route path="/receitas/criar" component={CreateRecipe} />
+          <Route exact path="/" component={Recipes} />
+          <Route path="/receitas/:id/editar" component={UpdateRecipe} />
         </Switch>
         </UserStorage>
       </Router>
