@@ -1,8 +1,8 @@
 import React from "react";
-import { RECIPES_GET } from "../../api";
+import { RATES_GET, RECIPES_GET } from "../../api";
 import useFetch from "../../Hooks/useFetch";
 import styles from "./Recipes.module.css";
-import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Recipes = () => {
   const [recipes, setRecipes] = React.useState(null);
@@ -10,6 +10,7 @@ const Recipes = () => {
   const { request } = useFetch();
 
   React.useEffect(() => {
+    getRates();
     getRecipes();
   }, []);
 
@@ -17,30 +18,56 @@ const Recipes = () => {
     const { url, options } = RECIPES_GET(token);
     const { response, json } = await request(url, options);
     if (response.ok && json.data) {
-      // let foo  = new Array(json.meta.last_page)
       setRecipes(json.data);
-      console.log(json);
+      
+    } else {
+      setRecipes(null);
+    }
+  }
+
+
+  async function getRates() {
+    const { url, options } = RATES_GET(token);
+    const { response, json } = await request(url, options);
+    if (response.ok && json.data) {
+      setRecipes(json.data);
+      console.log(json)
     } else {
       setRecipes(null);
     }
   }
 
   return (
-    <div className="home">
-      <h2 className={styles.title}>Imovéis Cadastrados</h2>
-      <div className={styles.propertyDiv}></div>
-      {recipes && (
-        <div className={styles.pagination}>
-          <Container fluid>
-            <Row>
-              <Col>talia</Col>
-            </Row>
-            <Row>
-              <Col>talia</Col>
-            </Row>
-          </Container>
-        </div>
-      )}
+    <div className={styles.content}>
+      <h1>Receitas</h1>
+      {recipes &&
+        recipes.map((recipe, i) => {
+          return (
+            <div className={styles.recipes} key={i}>
+              <Link to={`/receitas/${recipe.id}`}>
+                <p className={styles.name}>{recipe.name}</p>
+              </Link>
+              <div className={styles.image}>
+                {recipe.image ? (
+                  <img>A</img>
+                ) : (
+                  <p>Modo de preparo: {recipe.details}</p>
+                )}
+              </div>
+              <div>
+                <h4>Avaliação</h4>
+                <span className={`fa fa-star ${styles.checked}`} />
+                <span className={`fa fa-star ${styles.checked}`} />
+                <span className={`fa fa-star ${styles.checked}`} />
+                <span className="fa fa-star" />
+                <span className="fa fa-star" />
+              </div>
+              <div className={styles.openRecipe}>
+                <Link to={`/receitas/${recipe.id}`}>Abrir</Link>
+              </div>
+            </div>
+          );
+        })}
     </div>
   );
 };

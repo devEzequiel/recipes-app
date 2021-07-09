@@ -57,7 +57,7 @@ export function RECIPES_GET(token) {
   };
 }
 
-export function RECIPE_GET(id, token) {
+export function RECIPE_GET(id ,token) {
   return {
     url: API_URL + "recipes/" + id,
     options: {
@@ -71,11 +71,40 @@ export function RECIPE_GET(id, token) {
   };
 }
 
-export function RECIPE_PUT(body, token) {
+export function RECIPE_PUT(body, token, id) {
   return {
-    url: API_URL + "recipes/",
+    url: API_URL + "recipes/" + id,
     options: {
       method: "PUT",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+        Accept: "application/json, text/plain",
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function RATES_GET(token) {
+  return {
+    url: API_URL + "rates/",
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+        Accept: "application/json, text/plain",
+      }
+    },
+  };
+}
+
+export function RATE_POST(body, token) {
+  return {
+    url: API_URL + "rates/" + body.id,
+    options: {
+      method: "POST",
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json",

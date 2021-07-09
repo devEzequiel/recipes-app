@@ -21,7 +21,7 @@ class RateController extends Controller
     {
         $data = $request->all();
         $data['recipe_id'] = $id;
-        
+
         //there may only be one rating by email
         try {
             $this->rate->rateRecipe($data);
@@ -29,12 +29,29 @@ class RateController extends Controller
             return response()->json([
                 'message' => 'Rate sent successfully'
             ], 201);
-
         } catch (DefaultException $e) {
 
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], $e->getCode());
         } catch (\Exception $e) {
 
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getRates()
+    {
+        try {
+            $rates = $this->rate->getRatesByRecipe();
+
+            return response()->json([
+                'rate' => $rates
+            ], 200);
+
+        } catch (DefaultException $e) {
+
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], $e->getCode());
+
+        } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }

@@ -6,13 +6,12 @@ use App\Exceptions\DefaultException;
 use App\Models\Rate;
 use App\Models\Recipe;
 use App\Repositories\Contracts\RecipeRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class RecipeRepository extends AbstractRepository implements RecipeRepositoryInterface
 {
     protected $model = Recipe::class;
-
-    protected $rate = Rate::class;
 
     public function createRecipe($data)
     {
@@ -67,7 +66,7 @@ class RecipeRepository extends AbstractRepository implements RecipeRepositoryInt
     public function rateRecipe($data)
     {
 
-        $rates = $this->rate::where('email', $data['email'])
+        $rates = Rate::where('email', $data['email'])
             ->where('recipe_id', $data['recipe_id'])
             ->first();
 
@@ -75,8 +74,22 @@ class RecipeRepository extends AbstractRepository implements RecipeRepositoryInt
             throw new DefaultException('You\'ve already rated this recipe', 422);
         }
 
-        $rate = $this->rate::create($data);
+        $rate = Rate::create($data);
 
         return $rate;
+    }
+
+    public function getRatesByRecipe()
+    {
+        $rates = DB::table('rates')
+            ->select(DB::raw('recipe_id, avg(rate) as rates'))
+            ->groupBy('recipe_id')
+            ->get();
+
+        if (!$rates) {
+            throw new DefaultException('No one rated this recipe', 200);
+        }
+
+        return $rates;
     }
 }

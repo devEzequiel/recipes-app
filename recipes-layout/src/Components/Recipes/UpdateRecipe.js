@@ -47,12 +47,12 @@ const UpdateRecipe = () => {
 
     const { url, options } = RECIPE_PUT(
       {
-        name: name.value,
-        details: details.value,
-        ingredients: ingredients.value,
-        image: image.value,
+        name: name,
+        details: details,
+        ingredients: ingredients,
+        image: image,
       },
-      token
+      token, getId(),
     );
 
     //   setError(null);
@@ -100,8 +100,6 @@ const UpdateRecipe = () => {
           type="file"
           id="image"
           label="Editar imagem da receita (opcional)"
-          value={image}
-          onChange={({ target }) => setImage(target.value)}
         />
 
         {loading ? (

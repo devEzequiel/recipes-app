@@ -1,5 +1,77 @@
 .content {
-    width: 500px;
-    min-height: 200px;
-    margin: 0px auto;
+  width: 700px;
+  min-height: 200px;
+  margin: 0px auto;
+}
+
+.recipes {
+  /* border: 0.01px solid #2a8a9b; */
+  height: 280px;
+  margin: 40px 0;
+  padding: 10px 0 10px 10px;
+}
+
+h4 {
+  margin: 20px 0 10px;
+}
+
+.name {
+  font-size: 25px;
+  text-decoration: none;
+  color: black;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.checked {
+  color: orange;
+}
+
+.image {
+  height: 80px;
+}
+
+.openRecipe {
+  margin-top: 10px;
+}
+
+.recipeContainer {
+  margin: 70px 0 40px 20px;
+}
+
+.ingredients {
+}
+
+.details {
+}
+
+.rateDiv {
+  margin-top: 30px;
+  max-width: 300px;
+}
+
+.selectRate {
+  width: 30%;
+  margin: 5px 0 15px 0;
+  padding: 5px;
+  border: 1px solid #b2b2b2f1;
+  background: rgb(253, 253, 253);
+
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(253, 253, 253, 0.781) inset;
+  box-shadow: 0px 1px 4px 0px rgba(248, 248, 248, 0.924) inset;
+
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
+}
+
+.selectRate:focus,
+.selectRate:hover {
+    outline: none;
+  border-color: #2a8a9b;
+  background: white;
+  box-shadow: 0 0 0 3px #478e9b;
 }

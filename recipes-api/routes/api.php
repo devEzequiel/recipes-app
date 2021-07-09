@@ -44,11 +44,20 @@ Route::namespace('Api')->name('recipes.')->prefix('recipes')->group(function () 
     Route::delete('/{id}', [RecipeController::class, 'destroy'])
         ->name('delete')->middleware('auth:sanctum');
 
+});
+
+//rate endpoint
+Route::namespace('Api')->name('rate.')->prefix('rates')->group(function () {
+
     //endpoint where a vistor can rate a recipe
     Route::post('/{id}', [RateController::class, 'storeRate'])
         ->name('rate_recipe');
+
+    Route::get('/', [RateController::class, 'getRates'])
+        ->name('get_all_rates_by_recipes');
 });
 
+//auth endpoint
 Route::namespace('Api')->name('auth.')->prefix('auth')->group(function () {
 
     Route::post('/', [AuthController::class, 'postAuth'])

@@ -5,18 +5,17 @@ import styles from "./Header.module.css";
 const Header = () => {
   return (
     <header className={styles.header}>
-      <i className="fas fa-hamburger" />Receitas
+      <i className="fas fa-hamburger" />
+      Receitas
       <nav className={`${styles.nav} container`}>
         <div>
+          <Link className={styles.links} to="/">
+            Todas as receitas
+          </Link>
 
-            <Link className={styles.links} to="/receitas">
-              Todas as receitas
-            </Link>
-
-            <Link className={styles.links} to="/receitas/criar">
-              Criar Receita
-            </Link>
-            
+          <Link className={styles.links} to="/receitas/criar">
+            Criar Receita
+          </Link>
         </div>
       </nav>
     </header>
